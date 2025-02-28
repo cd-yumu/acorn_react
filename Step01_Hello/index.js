@@ -7,9 +7,9 @@ import reportWebVitals from './reportWebVitals';
 // id 가 root 인 div 안을 App.js 에서 리턴해준 component 로 채우기기
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <React.StrictMode>
+  <React.StrictMode>
     <App />
-    </React.StrictMode>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

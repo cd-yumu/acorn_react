@@ -46,10 +46,6 @@ function App(){
         return result;
     }
 
-    const displayStyle = {
-        display: "none"
-    }
-
     return (
         <div className="container">
             <h1>글 목록 입니다</h1>

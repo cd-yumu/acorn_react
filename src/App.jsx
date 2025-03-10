@@ -2,7 +2,8 @@ function App(){
 
     return (
         <div className="container">
-            <h1>인덱스 페이지</h1>
+            <h1>Index Page.</h1>
+            
         </div>
     )
 }

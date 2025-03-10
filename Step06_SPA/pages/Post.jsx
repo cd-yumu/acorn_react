@@ -20,7 +20,7 @@ function Post(props) {
 
     // 페이지(글 목록) 요청 함수
     const refresh = (pageNum) => {
-        axios.get("/posts?pageNum=" + pageNum)
+        axios.get("/v3/posts?pageNum=" + pageNum)
         .then(res=>{
             // 서버에서 응답한 data 는 res.data 에 들어있다.
             //console.log(res.data);
@@ -92,7 +92,7 @@ function Post(props) {
                                 <NavLink to={`/posts/${item.id}/edit`}>수정</NavLink>
                             </td>
                             <td><button onClick={()=>{
-                                axios.delete(`/posts/${item.id}`)
+                                axios.delete(`/v3/posts/${item.id}`)
                                 .then(res=>{
                                     alert(res.data.id + "번 글을 삭제했습니다.");
                                     // 현재 페이지 정보가 다시 출력되도록 한다.

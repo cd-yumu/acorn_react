@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
+import { Button, Form } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 
 
@@ -20,7 +21,7 @@ function PostUpdateForm(props) {
     
     useEffect(()=>{
         // 컴포넌트가 활성화 되는 시점에 수정할 회원의 정보를 이용해서 수정할 회원의 정보를 로딩한다.
-        axios.get(`/posts/${params.id}`)
+        axios.get(`/v3/posts/${params.id}`)
         .then(res=>{
             setPosts(res.data)
             // useRef() 가 리턴한 object 의 current 에 초기 post 를 저장해둔다.
@@ -39,33 +40,39 @@ function PostUpdateForm(props) {
 
     const navigate = useNavigate();
 
+    /*
+        Form.Group 요소의 controlId 속성은은 htmlFor 와 같으며 input 요소의 id 와 쌍을 이루게 된다.
+        Form.Control 요소를 textarea 요소로 만들기 위해서는 as 속성으로 testarea 를 사용한다.
+    */
     return (
         <>
             <h1>Post Edit Form</h1>
-            <div>
-                <label htmlFor="id">글 번호</label>
-                <input type="text" id="id" name="id" value={post.id} readOnly/>
-            </div>
-            <div>
-                <label htmlFor="title">제목</label>
-                <input type="text" id="title" name="title" onChange={handleChange} value={post.title}/>
-            </div>
-            <div>
-                <label htmlFor="author">작성자</label>
-                <input type="text" id="author" name="author" onChange={handleChange} value={post.author}/>
-            </div>
-            <button onClick={()=>{
-                axios.put(`/posts/${post.id}`, post)
+            <Form>
+                <Form.Group className="mb-3" controlId="id">
+                    <Form.Label>글 번호</Form.Label>
+                    <Form.Control type="text" value={post.id} readOnly/>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="title">
+                    <Form.Label>제목</Form.Label>
+                    <Form.Control type="text" name="title" value={post.title} onChange={handleChange}/>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="author">
+                    <Form.Label>작성자</Form.Label>
+                    <Form.Control type="text" name="author" value={post.author} onChange={handleChange}/>
+                </Form.Group>
+            </Form>
+
+            <Button variant="warning" onClick={()=>{
+                setPosts(savedPost.current);
+            }}>Reset</Button>
+            <Button variant="success" onClick={()=>{
+                axios.put(`/v3/posts/${post.id}`, post)
                 .then(res=>{
                     alert(res.data.id + "번 글을 수정했습니다.")
                     navigate("/posts");
                 })
                 .catch(err=>console.log(err));
-            }}>Save Edited</button>
-            <button onClick={()=>{
-                // useRef() 를 이용해서 저장해 두었던 초기 post 로 되돌린다.
-                setPosts(savedPost.current);
-            }}>Reset</button>
+            }}>Save Edited</Button>
         </>
     )
 }

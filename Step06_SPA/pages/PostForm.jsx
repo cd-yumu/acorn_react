@@ -16,7 +16,7 @@ function PostForm(props) {
     return (
         <>
             <h1>New Post Form</h1>
-            <Form action="/posts" method='post' onSubmit={(e)=>{
+            <Form action="/v3/posts" method='post' onSubmit={(e)=>{
                 e.preventDefault();
                 const url = e.target.action;
                 // 폼에 입력한 내용을 이용해서 FormData 객체 생성

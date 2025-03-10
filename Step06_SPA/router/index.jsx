@@ -12,6 +12,9 @@ import PostUpdateForm from "../pages/PostUpdateForm";
 
 // 라우팅 정보를 배열에 미리 저장해 둔다.
 const routes = [
+    // spring boot 서버에 넣어서 실행하면 최초 로딩될 때 /index.html 경로로 로딩된다.
+    // 그럴 때도 Home 컴포넌트가 활성화 될 수 있도록 라우팅 정보를 추가한다.
+    {path:"/index.html", element:<Home/>},
     {path: "/", element:<Home/>},
     {path: "/game", element:<Game/>},
     {path: "/study", element:<Study/>},
@@ -21,7 +24,8 @@ const routes = [
 ];
 
 //createBrowserRouter 에서 createHashRouter 바꾼다면 주소창에 # 로 구분 표시시
-const router = createBrowserRouter([{
+// 기존 createBrowserRouter 로 사용하면 새로 고침 하면 안되는 현상 보완완
+const router = createHashRouter([{
     path:"/",
     element:<App/>,
     children: routes.map((route)=>{

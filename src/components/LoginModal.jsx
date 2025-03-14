@@ -20,13 +20,18 @@ function LoginModal(props) {
             [e.target.name] : e.target.value
         });
     };
+
+    
     // 에러 메시지를 상태값으로 관리
     const [errMsg, setErrMsg] = useState(null);
     // 로그인 버튼을 눌렀을 때 실행할 함수
     const handleLogin = ()=>{
+        // state 를 object 상태로 사용해도 Json 으로 변경되어 (aixos 의 기능)
+        // 요청의 바디에 넣어 전달한다. 
         axios.post("/auth", state)
         .then(res=>{
-            console.log(res.data);
+            // axios 의 요청 헤더에 자동으로 토큰이 포함되도록 한다.
+            axios.defaults.headers.common["Authorization"] = res.data;
             // 토큰을 localStorage 에 저장
             localStorage.token = res.data;
             // 토큰을 디코딩해서 userName 을 얻어온다.
@@ -50,10 +55,14 @@ function LoginModal(props) {
             setErrMsg(err.response.data);
         });
     };
+    
+    const handleClose = () =>{
+        dispatch({type:"LOGIN_MODAL", payload : {show : false}})
+    };
 
     return (
         // show={props.show} or {...props}
-        <Modal {...props} size='lg' centered>
+        <Modal show={props.show} onHide={handleClose} size='lg' centered >
             <Modal.Header closeButton>
                 <Modal.Title>{loginModal.title}</Modal.Title>
             </Modal.Header>

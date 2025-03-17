@@ -2,8 +2,8 @@
 
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { Breadcrumb, Button, Form } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
 
 function UserUpdateForm(props) {
     const [user, setUser]=useState({});
@@ -71,6 +71,7 @@ function UserUpdateForm(props) {
             alert("이미지 파일을 drop 하세요");
             return ;
         }
+
         //파일로 부터 데이터를 읽어들일 객체 생성
         const reader=new FileReader()
         //파일을 DataURL 형식의 문자열로 읽어들이기
@@ -141,6 +142,14 @@ function UserUpdateForm(props) {
 
     return (
         <>
+            {/* 브래드 크럼 */}
+            <Breadcrumb>
+                <Breadcrumb.Item as={Link} to='/' href='/'>Home</Breadcrumb.Item>
+                <Breadcrumb.Item as={Link} to='/user/detail' href='/user/detail'>User</Breadcrumb.Item>
+                <Breadcrumb.Item as={Link} active>Update</Breadcrumb.Item>
+            </Breadcrumb>
+
+            {/* 본문 */}
             <svg ref={personSvg} style={profileStyle2}  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
                 <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>

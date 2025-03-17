@@ -2,9 +2,9 @@
 
 import axios from "axios";
 import { useState } from "react";
-import { Alert, Button, Form } from "react-bootstrap";
+import { Alert, Breadcrumb, Button, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 
@@ -45,7 +45,7 @@ function UserPwdUpdateForm() {
         const {name, value} = e.target
 
         //만일 현재 입력란이 아직 더럽혀지지 않았다면 
-        if(!isDirty[name]){
+        if(!isDirty[name]){                     
             //더럽혀 졌는지 여부를 변경하기 
             setDirty({
                 ...isDirty,
@@ -114,13 +114,21 @@ function UserPwdUpdateForm() {
             const message = error.response.data
             setError({
                 show:true,
-                message
+                message     // message : message
             })
         })
     }
 
     return (
         <>
+            {/* 브래드 크럼 */}
+            <Breadcrumb>
+                <Breadcrumb.Item as={Link} to='/' href='/'>Home</Breadcrumb.Item>
+                <Breadcrumb.Item as={Link} to='/user/detail' href='/user/detail'>User</Breadcrumb.Item>
+                <Breadcrumb.Item as={Link} active>Update Password</Breadcrumb.Item>
+            </Breadcrumb>
+
+            {/* 본문 */}
             <h1>비밀번호 수정 양식</h1>
             { error.show && <Alert variant="danger">{error.message}</Alert>}
             <Form onSubmit={handleSubmit}>

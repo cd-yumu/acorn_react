@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Table } from 'react-bootstrap';
+import { Breadcrumb, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 function UserDetail(props) {
@@ -16,7 +16,6 @@ function UserDetail(props) {
         .then(res=>{
             //응답된 내용을 이용해서 state 를 변경한다
             setUser(res.data);
-
         })
         .catch(error=>{
             console.log(error);
@@ -31,6 +30,13 @@ function UserDetail(props) {
     }
     return (
         <>
+            {/* 브래드 크럼 */}
+            <Breadcrumb>
+                <Breadcrumb.Item as={Link} to='/' href='/'>Home</Breadcrumb.Item>
+                <Breadcrumb.Item as={Link} active>User</Breadcrumb.Item>
+            </Breadcrumb>
+
+            {/* 본문 */}
             <h1>회원 가입 정보 입니다.</h1>
             <Table striped bordered size="sm">
                 <colgroup>

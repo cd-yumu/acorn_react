@@ -19,6 +19,7 @@ const initState = {
 
 const reducer = (state=initState, action)=>{
   let newState;
+  // 로그인된 사용자 정보 저장 - userName, role
   if(action.type === "USER_INFO"){
     newState = {
       ...state,

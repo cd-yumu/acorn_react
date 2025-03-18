@@ -5,6 +5,7 @@ import { Button, FloatingLabel, Form } from 'react-bootstrap';
 import { initEditor } from '../editor/SmartEditor';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import AlertModal from './AlertModal';
 
 function PostForm(props) {
 
@@ -24,8 +25,15 @@ function PostForm(props) {
     // 경로 이동을 할 함수
     const navigate = useNavigate();
 
+    // 알림 모달을 띄울지 말지 state 로 관리
+    const [modalShow, setModalShow] = useState(false);
+    
     return (
         <>
+            <AlertModal show={modalShow} message="Saved New Post" onYes={()=>{
+                navigate("/posts");
+                setModalShow(false);
+            }}/>
             <h1>Create New Post</h1>
             <Form>
                 <FloatingLabel label="Title" className="mb-3" controlId="title">
@@ -47,9 +55,10 @@ function PostForm(props) {
                     const content = inputContent.current.value;    
                     axios.post("/posts",{title, content})
                     .then(res=>{
-                        alert("Saved!");
+                        //alert("Saved!");
                         // 글 목록 보기로 이동
-                        navigate("/posts");
+                        //navigate("/posts");
+                        setModalShow(true);
                     })
                     .catch(err=>console.log(err));
                 }}>저장</Button>

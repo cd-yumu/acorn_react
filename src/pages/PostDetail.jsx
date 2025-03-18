@@ -2,59 +2,103 @@
 
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Table } from 'react-bootstrap';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { Button, Table } from 'react-bootstrap';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+
+//module css 를 import 해서 cx 함수로 사용할 준비를 한다.
+import customCss from "./css/cafe_detail.module.css";
+import binder from "classnames/bind";
+import { useSelector } from 'react-redux';
+import ConfirmModal from '../components/ConfirmModal';
+const cx=binder.bind(customCss);
 
 function PostDetail(props) {
     // "/posts/:num" 에서 num 에 해당되는 경로 파라미터 값 읽어오기
-    const {num} = useParams();
-    // 글 하나의 정보를 상태값으로 관리
-    const [state, setState] = useState({});
-    // 검색 키워드 관련 처리
-    const [params, setParams] = useSearchParams();
+    const {num} = useParams()
+    //글 하나의 정보를 상태값으로 관리
+    const [state, setState]=useState({})
+    //검색 키워드 관련처리
+    const [params, setParams]=useSearchParams({
+        condition:"",
+        keyword:""
+    });
+    //로그인된 userName
+    const userName = useSelector(state => state.userInfo && state.userInfo.userName);
+    // state.userInfo && state.userInfo.userName 에서 리턴되는 값은 null 또는 "kimgura"
+
+    const navigate = useNavigate();
+
 
     useEffect(()=>{
-        const query = new URLSearchParams(params).toString();
-        axios.get(`/posts/${num}${params.get("condition")?"?"+query:""}`)
+        const query=new URLSearchParams(params).toString();
+        axios.get(`/posts/${num}${params.get("condition") ? "?"+query : ""}`)
         .then(res=>{
-            // 글 하나의 정보를 상태값에 넣어주고
+            //글하나의 정보를 상태값에 넣어주고 
             setState(res.data);
         })
-        .catch(err=>console.log(err))
-    },[num]);
+        .catch(error=>{
+            console.log(error);
+        });
+
+    }, [num]);
+
+    const [modalShow, setModalShow] = useState(false);
 
     return (
         <>
-            <h1>Post View Page.</h1>
+            <ConfirmModal show={modalShow} message="이 글을 삭제 하시겠습니까?" 
+                onCancel={()=>setModalShow(false)} onYes={()=>{
+                axios.delete(`/posts/${state.num}`)
+                .then(res=>{
+                    navigate("/posts");
+                })
+                .catch(error=>{
+                    console.log(error);
+                });
+                setModalShow(false);
+            }}/>
+            {state.prevNum !== 0 ? <Link to={`/posts/${state.prevNum}${params.get("condition") && "?"+new URLSearchParams(params).toString() }`}>이전글</Link> : ""}
+            {state.nextNum !== 0 ? <Link to={`/posts/${state.nextNum}${params.get("condition") && "?"+new URLSearchParams(params).toString() }`}>다음글</Link> : ""}
+            <h1>글 자세히 보기 페이지</h1>
             <Table>
                 <thead>
                     <tr>
-                        <th>No</th>
+                        <th>번호</th>
                         <td>{state.num}</td>
                     </tr>
                     <tr>
-                        <th>Writer</th>
+                        <th>작성자</th>
                         <td>{state.writer}</td>
                     </tr>
                     <tr>
-                        <th>Title</th>
+                        <th>제목</th>
                         <td>{state.title}</td>
                     </tr>
                     <tr>
-                        <th>Viewers</th>
+                        <th>조회수</th>
                         <td>{state.viewCount}</td>
                     </tr>
                     <tr>
-                        <th>Updated-Date</th>
+                        <th>수정일</th>
                         <td>{state.updatedAt}</td>
                     </tr>
                     <tr>
-                        <th>Created-Date</th>
+                        <th>작성일</th>
                         <td>{state.createdAt}</td>
                     </tr>
                 </thead>
             </Table>
-            <div dangerousl ySetInnerHTML={{__html: state.content}}/>
+            <div className={cx("content")} dangerouslySetInnerHTML={{__html:state.content}}></div>
+            {
+                userName === state.writer ?
+                <> 
+                    <Button variant='warning' onClick={()=>{
+                        navigate(`/posts/${state.num}/edit`);
+                    }}>수정</Button>
+                    <Button variant='danger' onClick={()=>setModalShow(true)}>삭제</Button>
+                </>
+                :   ""
+            }
         </>
     );
 }

@@ -10,6 +10,7 @@ import UserUpdateForm from "../pages/UserUpdateForm";
 import UserPwdUpdateForm from "../pages/UserPwdUpdateForm";
 import PostForm from "../components/PostForm";
 import PostDetail from "../pages/PostDetail";
+import PostUpdateForm from "../pages/PostUpdateForm";
 
 const routes = [
     {path: "/index.html", element:<Home/>},
@@ -21,7 +22,9 @@ const routes = [
     {path: "/posts/new", element: <ProtectedRoute><PostForm/></ProtectedRoute>},
     // 1번 글 - /posts/1 , 2번 글 - /posts/2
     // 검색 키워드가 존재한다면 /posts/2?condition=xxx&keyword=yyy 이런식으로 넘어온다.
-    {path: "/posts/:num", element: <PostDetail/>}
+    {path: "/posts/:num", element: <PostDetail/>},
+    {path: "/posts/:num/edit", element: <ProtectedRoute><PostUpdateForm/></ProtectedRoute>}
+    // 수정할 글 번호를 경로 파라미터로 얻을 수 있도록 ex. /posts/1/edit , /posts/2/edit
 ];
 
 const router = createHashRouter([{

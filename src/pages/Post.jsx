@@ -8,6 +8,8 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 function Post(props) {
     // "/posts?pageNum=x" 에서 pageNum 을 추출하기 위한 hook
     const [params, setParams] = useSearchParams({
+        // ?pageNum=1&condition=&keyword 와 같은 상태
+        // 값이 필요할 경우 - params.get("pageNum") 과 같은 메소드로 얻는다.
         pageNum:1,
         condition:"",
         keyword:""
@@ -57,6 +59,8 @@ function Post(props) {
         //해당 페이지의 내용을 원격지 서버로 부터 받아온다 
         refresh(pageNum);
     },[params]);
+    // 이 함수는 Post 컴포넌트가 활성화 되는 시점에 1 번 호출
+    // 또한, params 에 변화가 생겼을 때 호출된다.
 
     //페이지를 이동할 hook
     const navigate = useNavigate();

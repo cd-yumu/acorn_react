@@ -79,8 +79,6 @@ function PostDetail(props) {
             e.target.content.value = "";    // textarea 의 value 에 빈 문자열 넣어주기
          })
          .catch(err=>console.log(err));
-
-         
     };
 
      // 댓글 정보를 상태값으로 관리
@@ -198,7 +196,7 @@ function PostDetail(props) {
                 <textarea name="content" defaultValue={!userName?'댓글 작성을 위해 로그인이 필요 합니다':''}></textarea>
                 <button type="submit">등록</button>
             </form>
-            {/* 왜 defaultValue??? */}
+            {/* 왜 defaultValue??? value 를 쓰면 왜 오류지? 경고임 */}
             
             {/* 댓글 목록 */}
             <div className={cx("comments")}>

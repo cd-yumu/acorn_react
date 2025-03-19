@@ -11,10 +11,14 @@ function BsNavBar(props) {
                     <Navbar.Brand as={NavLink} className='text-white'>Try</Navbar.Brand>
                     <Navbar.Toggle aria-controls="one"/>
                     <Navbar.Collapse id="one">
+                        {/*  */}
                         <Nav className='me-auto'>
                             <Nav.Link as={NavLink} to="/" className='text-white'>Home</Nav.Link>
                             <Nav.Link as={NavLink} to="/posts" className='text-white'>Post</Nav.Link>
                         </Nav>
+
+                        {/*  */}
+
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

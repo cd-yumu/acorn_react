@@ -40,8 +40,8 @@ function LoginModal(props) {
             console.log(decoded);
             // 발생할 action
             const action = {type : "USER_INFO", payload : {
-                userName :  decoded.payload.sub,
-                role : decoded.payload.role
+                userName :  decoded.sub,
+                role : decoded.role
             }};
             // 액션 발행하기
             dispatch(action);

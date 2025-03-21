@@ -108,8 +108,8 @@ function Post(props) {
 
     return (
         <>
-            <Link to='/posts/new'>Create New Post</Link>
             <h1>Post List.</h1>
+            <Link to='/posts/new'>Create New Post</Link>
             <Table striped bordered size='sm'>
                 <thead>
                     <tr>
